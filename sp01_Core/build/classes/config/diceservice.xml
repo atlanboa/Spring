@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+												 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Bean Factory가 어떤 빈을 생성할지를 이곳에 직접 등록한다. :: TestApp 클래스를 보고 작성한다. -->
+	<!-- 1. 주사위 3개 bean을 등록 -->
+	<bean id="diceA" class="spring.service.dice.impl.DiceAImpl"/>
+	<bean id="diceB" class="spring.service.dice.impl.DiceBImpl"/>
+	<bean id="diceC" class="spring.service.dice.impl.DiceCImpl"/>
+	
+	<!-- 2. 주사위를 가지고 노는 bean Player02을 등록 :: diceA를 setter로 주입 -->
+	<bean id="player01" class="spring.service.dice.play.Player02">
+		<!-- property = setter = Player02.setDice(new DiceAImpl()) -->
+		<property name="dice" ref="diceA"></property>	
+	</bean>
+	<bean id="player02" class="spring.service.dice.play.Player02">
+		<!-- property = setter = Player02.setDice(new DiceAImpl()) -->
+		<property name="dice" ref="diceB"></property>	
+	</bean>
+		<bean id="player03" class="spring.service.dice.play.Player02">
+		<!-- 생성자 -->
+		<constructor-arg ref="diceC"></constructor-arg>	
+	</bean>
+		<bean id="player04" class="spring.service.dice.play.Player02">
+		<!-- property = setter = Player02.setDice(new DiceAImpl()) -->
+		<constructor-arg ref="diceA"></constructor-arg>	
+	</bean>
+
+</beans>

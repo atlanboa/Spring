@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+1) ResultMap 사용법 :: SELECT 문에서만 사용
+2) 동적인 쿼리
+	: 하나의 쿼리로 여러가지의 SELECT 문이 동작이 가능하게 하는 쿼리다.
+ -->
+<mapper namespace="User07">
+	<resultMap type="user" id="userSelectRM">
+		<result property="userId" column="user_id"/>
+		<result property="userName" column="user_name"/>
+		<result property="password" column="password"/>
+		<result property="age" column="age"/>
+		<result property="grade" column="grade"/>
+		<result property="regDate" column="reg_date"/>
+	</resultMap>
+
+	<!-- 
+	정적인 쿼리
+	: SELECT 문에서 WHERE 절 조건을 어떻게 주느냐에 따라서 계속적으로 SELECT 문이 만들어지는 쿼리
+	
+	동적인 쿼리
+	: SELECT 문에서 WHERE 절 조건이 변하더라도 하나의 SELECT 문으로 동작이 가능한 쿼리
+	 -->
+	 
+	 <select id="getUserList01" parameterType="user" resultMap="userSelectRM">
+	 	SELECT
+	 	user_id, user_name, password, age, grade, reg_date
+	 	FROM users
+	 	<where>
+	 		<if test="userName != null">
+	 			user_name LIKE #{userName}
+	 		</if>
+	 		
+	 		<if test="age != null">
+	 			OR age LIKE #{age}
+	 		</if>
+	 	</where>
+	 	ORDER BY user_id DESC
+	 </select>
+</mapper>
